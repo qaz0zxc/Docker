@@ -2,6 +2,8 @@ nginx-php:
   build: ./nginx
   ports:
     - "81:80"
+  links:
+    - "php"
   volumes:
     - /code:/code
 php:
@@ -13,7 +15,7 @@ php:
   links:
     - "mariadb"
     - "redis"
-    
+
 mariadb:
   image: mariadb
   ports:
