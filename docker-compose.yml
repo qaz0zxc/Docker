@@ -1,0 +1,35 @@
+nginx-php:
+  build: ./nginx
+  ports:
+    - "81:80"
+  volumes:
+    - /code:/code
+php:
+  build: ./php
+  ports:
+    - "9000:9000"
+  volumes:
+    - ./code:/code
+  links:
+    - "mariadb"
+    - "redis"
+    
+mariadb:
+  image: mariadb
+  ports:
+    - "3306:3306"
+  expose:
+    - "3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: 123456
+  volumes:
+    - ./data:/var/lib/mysql
+
+redis:
+  image: redis:latest
+  ports:
+    - "6379:6379"
+  expose:
+    - "6379"
+  environment:
+    REDIS_PASS: 123456
